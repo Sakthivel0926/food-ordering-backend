@@ -6,7 +6,7 @@ import FoodItem from "../models/FoodItem.js";
 export const getAllFoodItems = async (req, res) => {
   try {
     const foodItems = await FoodItem.find().lean();
-    console.log('Raw food items from DB:', foodItems); // Debug log
+    
     // Return the items as they are from the database
     res.json(foodItems);
   } catch (error) {
@@ -20,8 +20,8 @@ export const getAllFoodItems = async (req, res) => {
 // @access  Admin
 export const addFoodItem = async (req, res) => {
   try {
-    const { name, category, price, image, quantity = 10 } = req.body;
-    if (!name || !category || !price || !image) {
+    const { name, category, price, image, quantity = 1 } = req.body;
+    if (!name || !category || !price || !image || !quantity) {
       return res.status(400).json({ message: "All fields are required" });
     }
 

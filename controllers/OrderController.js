@@ -99,14 +99,11 @@ export const createOrder = async (req, res) => {
     if (!items || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ message: 'No items in order' });
     }
-
-    console.log('Received order data:', JSON.stringify(req.body, null, 2));
     
     // Validate and process each item
     const processedItems = [];
     
     for (const item of items) {
-      console.log('Processing item:', item);
       
       if (!item.foodId) {
         return res.status(400).json({ 
@@ -176,7 +173,6 @@ export const createOrder = async (req, res) => {
     }));
     
     const bulkResult = await FoodItem.bulkWrite(bulkOps, { session });
-    console.log('Bulk write result:', bulkResult);
     
     // Calculate total amount
     const totalAmount = processedItems.reduce((total, item) => {
@@ -200,9 +196,7 @@ export const createOrder = async (req, res) => {
       estimatedDeliveryTime: estimatedDeliveryTime
     });
     
-    console.log('Creating order with data:', order);
     const savedOrder = await order.save({ session });
-    console.log('Order created successfully:', savedOrder);
     
     if (session) await session.commitTransaction();
     
