@@ -74,18 +74,15 @@ export const loginUser = async (req, res) => {
     }
 
     const user = await User.findOne({ email });
-    console.log("Login Attempt User:", user);
+    // console.log("Login Attempt User:", user);
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    // Debugging: Print stored and entered password
-    console.log("Stored Password:", user.password);
-    console.log("Entered Password:", password);
-
+  
     // Compare Passwords
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log("Password Match:", isMatch);
+    // console.log("Password Match:", isMatch);
     if (!isMatch) {
       console.log("Password mismatch!");
       return res.status(401).json({ message: "Invalid email or password" });
